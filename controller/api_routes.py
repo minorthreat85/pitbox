@@ -2445,10 +2445,8 @@ def _resolve_server_address(server_id: str) -> tuple[str | None, int | None, str
         seed_port = int(fav.get("port") or 0)
         if not host or not (1 <= seed_port <= 65535):
             return None, None, None
-        live = get_live_server_info(host, seed_port)
-        game_port = live.get("game_port") if live.get("game_port") is not None else seed_port
-        name = (fav.get("name") or live.get("name") or "").strip() or f"{host}:{game_port}"
-        return host, game_port, f"{host}:{game_port}"
+        name = (fav.get("name") or "").strip() or f"{host}:{seed_port}"
+        return host, seed_port, f"{host}:{seed_port}"
     try:
         preset_dir = _get_server_preset_dir_safe(server_id)
         sc_path, _ = _preset_ini_paths(preset_dir)
